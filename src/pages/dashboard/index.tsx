@@ -1,17 +1,10 @@
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useActivity } from "@/context/store";
 import { DatePickerDemo } from "@/components/DatePicker";
 import { HexColorPicker } from "react-colorful";
 import Link from "next/link";
+import { FaHistory } from "react-icons/fa";
 import {
   Dialog,
   DialogContent,
@@ -25,11 +18,19 @@ import {
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BsFire } from "react-icons/bs";
 function Index() {
   const [color, setColor] = useState("#aabbcc");
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
+  const { activities, incrementLog } = useActivity();
 
   return (
     <div className="p-10">
@@ -87,7 +88,64 @@ function Index() {
           </DialogContent>
         </Dialog>
         <DatePickerDemo></DatePickerDemo>
-        
+      </div>
+      <div className="space-y-5">
+        {activities.map((activity) => {
+          var bg = `bg-[${activity.color.toLowerCase()}]`;
+          return (
+            <div key={activity.id}>
+              <Card>
+                <CardHeader className="grid grid-cols-4 items-center  justify-between gap-5">
+                  <div className={` h-6 w-6 rounded-md `}>{activity.logs}</div>
+                  <div className="flex  col-span-2 flex-col">
+                    <CardTitle>{activity.name}</CardTitle>
+                    <CardDescription>{activity.description}</CardDescription>
+                  </div>
+                  <Button onClick={() => incrementLog(activity.id)}>+</Button>
+                </CardHeader>
+              </Card>
+            </div>
+          );
+        })}
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="text-4xl text-center font-black p-10">Stats</div>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Current Streak
+            </CardTitle>
+            <BsFire className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">09</div>
+            <p className="text-xs text-muted-foreground">All time</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Longest Streak
+            </CardTitle>
+            <BsFire className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">100</div>
+            <p className="text-xs text-muted-foreground">All time</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Logs</CardTitle>
+            <FaHistory className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">019283098</div>
+            <p className="text-xs text-muted-foreground">
+              {/* {displayDateRange(searchParams)} */}
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
