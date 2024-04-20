@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DatePickerDemo } from "@/components/DatePicker";
 import { HexColorPicker } from "react-colorful";
 import Link from "next/link";
 import {
@@ -35,7 +36,7 @@ function Index() {
       <div className="flex flex-row items-center  justify-center">
         <div className="p-5 text-3xl font-black text-center">Habbits</div>
       </div>
-      <div className="flex justify-center p-10">
+      <div className="flex flex-col gap-5 justify-center items-center p-10">
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline">Add a new Activity</Button>
@@ -85,6 +86,7 @@ function Index() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
+        <DatePickerDemo></DatePickerDemo>
         
       </div>
     </div>
