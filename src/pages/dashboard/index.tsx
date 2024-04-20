@@ -30,7 +30,17 @@ function Index() {
   const [color, setColor] = useState("#aabbcc");
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
-  const { activities, incrementLog } = useActivity();
+  const {
+    activities,
+    incrementLog,
+    addActivity,
+    mostLoggedActivity,
+    currentStreak,
+    longestStreak,
+    totalLogs,
+  } = useActivity();
+  var temp = mostLoggedActivity();
+  console.log(temp);
 
   return (
     <div className="p-10">
@@ -82,7 +92,9 @@ function Index() {
             <DialogFooter>
               <DialogClose className="flex flex-row gap-5 justify-between">
                 <Button variant={"destructive"}>Exit</Button>
-                <Button type="submit">Save changes</Button>
+                <Button onClick={() => {}} type="submit">
+                  Save changes
+                </Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -92,11 +104,14 @@ function Index() {
       <div className="space-y-5">
         {activities.map((activity) => {
           var bg = `bg-[${activity.color.toLowerCase()}]`;
+          console.log(activity.logs);
           return (
             <div key={activity.id}>
               <Card>
                 <CardHeader className="grid grid-cols-4 items-center  justify-between gap-5">
-                  <div className={` h-6 w-6 rounded-md `}>{activity.logs}</div>
+                  <div className={` h-6 w-6 rounded-md ${bg}`}>
+                    {activity.logs.length}
+                  </div>
                   <div className="flex  col-span-2 flex-col">
                     <CardTitle>{activity.name}</CardTitle>
                     <CardDescription>{activity.description}</CardDescription>
@@ -118,7 +133,7 @@ function Index() {
             <BsFire className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">09</div>
+            <div className="text-2xl font-bold">{currentStreak()}</div>
             <p className="text-xs text-muted-foreground">All time</p>
           </CardContent>
         </Card>
@@ -130,7 +145,7 @@ function Index() {
             <BsFire className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">100</div>
+            <div className="text-2xl font-bold">{longestStreak()}</div>
             <p className="text-xs text-muted-foreground">All time</p>
           </CardContent>
         </Card>
@@ -140,7 +155,20 @@ function Index() {
             <FaHistory className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">019283098</div>
+            <div className="text-2xl font-bold">{totalLogs()}</div>
+            <p className="text-xs text-muted-foreground">
+              {/* {displayDateRange(searchParams)} */}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Most Logged</CardTitle>
+            <FaHistory className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{temp?.name}</div>
             <p className="text-xs text-muted-foreground">
               {/* {displayDateRange(searchParams)} */}
             </p>

@@ -3,17 +3,20 @@ interface Activity {
   name: string;
   description: string;
   color: string;
-  logs: number; // Now counting logs as an integer.
+  logs: Date[]; // Array of log dates
   lastLogged: Date | null;
 }
 
 interface ActivityContextType {
   activities: Activity[];
-  setActivities: (activities: Activity[]) => void;
-  incrementLog: (activityId: number) => void;
-}
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+  incrementLog: (activityId: number) => void;
+  addActivity: (activity: Activity) => void;
+  currentStreak: () => number;
+  longestStreak: () => number;
+  totalLogs: () => number;
+  mostLoggedActivity: () => Activity | null;
+}
 
 const initialActivities: Activity[] = [
   {
@@ -21,7 +24,7 @@ const initialActivities: Activity[] = [
     name: "Hiking",
     description: "Exploring local trails.",
     color: "#FF6347",
-    logs: 0,
+    logs: [],
     lastLogged: null,
   },
   {
@@ -29,7 +32,7 @@ const initialActivities: Activity[] = [
     name: "Reading",
     description: "Reading fiction and non-fiction books.",
     color: "#4682B4",
-    logs: 0,
+    logs: [],
     lastLogged: null,
   },
   {
@@ -37,7 +40,7 @@ const initialActivities: Activity[] = [
     name: "Cooking",
     description: "Trying out new vegetarian recipes.",
     color: "#FFD700",
-    logs: 0,
+    logs: [],
     lastLogged: null,
   },
   {
@@ -45,7 +48,7 @@ const initialActivities: Activity[] = [
     name: "Gardening",
     description: "Maintaining a small kitchen garden.",
     color: "#32CD32",
-    logs: 0,
+    logs: [],
     lastLogged: null,
   },
   {
@@ -53,10 +56,14 @@ const initialActivities: Activity[] = [
     name: "Programming",
     description: "Working on personal coding projects.",
     color: "#8A2BE2",
-    logs: 0,
+    logs: [],
     lastLogged: null,
   },
 ];
+
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { differenceInCalendarDays } from "date-fns";
+
 const ActivityContext = createContext<ActivityContextType | undefined>(
   undefined
 );
@@ -76,10 +83,16 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
   children,
 }) => {
   const [activities, setActivities] = useState<Activity[]>(initialActivities);
+
   const incrementLog = (activityId: number) => {
     const updatedActivities = activities.map((activity) => {
       if (activity.id === activityId) {
-        return { ...activity, logs: activity.logs + 1, lastLogged: new Date() };
+        const newLogDate = new Date(); // assumes logging at the current time
+        return {
+          ...activity,
+          logs: [...activity.logs, newLogDate],
+          lastLogged: newLogDate,
+        };
       }
       return activity;
     });
@@ -87,15 +100,122 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
   };
 
   const addActivity = (activity: Activity) => {
-    setActivities([
-      ...activities,
-      { ...activity, id: Math.max(...activities.map((a) => a.id)) + 1 },
-    ]);
+    setActivities([...activities, { ...activity, logs: [] }]);
   };
 
+  import { differenceInCalendarDays } from "date-fns";
+
+  interface Activity {
+    id: number;
+    name: string;
+    description: string;
+    color: string;
+    logs: Date[]; // Array of log dates
+    lastLogged: Date | null;
+  }
+
+  interface ActivityContextType {
+    activities: Activity[];
+    longestStreak: () => number;
+    currentStreak: () => number;
+  }
+
+  const currentStreak = (): number => {
+    let maxCurrentStreak = 0;
+
+    const today = new Date();
+
+    activities.forEach((activity) => {
+      if (activity.logs.length > 0) {
+        // Sort logs to ensure they are in chronological order
+        const sortedLogs = activity.logs.sort(
+          (a, b) => a.getTime() - b.getTime()
+        );
+
+        let currentStreak = 0;
+        let found = false;
+
+        // Traverse the logs from the most recent to the oldest
+        for (let i = sortedLogs.length - 1; i > 0; i--) {
+          if (differenceInCalendarDays(today, sortedLogs[i]) === 0) {
+            found = true; // Start counting from today
+            currentStreak = 1;
+          } else if (
+            found &&
+            differenceInCalendarDays(sortedLogs[i], sortedLogs[i + 1]) === 1
+          ) {
+            currentStreak++;
+          } else if (found) {
+            break; // Stop if no longer consecutive
+          }
+        }
+
+        // Update the maximum current streak found
+        maxCurrentStreak = Math.max(maxCurrentStreak, currentStreak);
+      }
+    });
+
+    return maxCurrentStreak;
+  };
+
+  const longestStreak = (): number => {
+    let maxStreak = 0;
+
+    activities.forEach((activity) => {
+      if (activity.logs.length > 0) {
+        // Sort logs to ensure they are in chronological order
+        const sortedLogs = activity.logs.sort(
+          (a, b) => a.getTime() - b.getTime()
+        );
+
+        let currentStreak = 1;
+        let longestStreakForActivity = 1;
+
+        for (let i = 1; i < sortedLogs.length; i++) {
+          // Calculate the difference in calendar days between consecutive logs
+          if (
+            differenceInCalendarDays(sortedLogs[i], sortedLogs[i - 1]) === 1
+          ) {
+            currentStreak++;
+          } else {
+            currentStreak = 1; // Reset streak if not consecutive
+          }
+          // Update the longest streak for this activity
+          longestStreakForActivity = Math.max(
+            longestStreakForActivity,
+            currentStreak
+          );
+        }
+
+        // Update the overall maximum streak
+        maxStreak = Math.max(maxStreak, longestStreakForActivity);
+      }
+    });
+
+    return maxStreak;
+  };
+
+  const totalLogs = (): number => {
+    return activities.reduce((acc, activity) => acc + activity.logs.length, 0);
+  };
+
+  const mostLoggedActivity = (): Activity | null => {
+    if (activities.length === 0) return null;
+    return activities.reduce((prev, current) =>
+      prev.logs.length > current.logs.length ? prev : current
+    );
+  };
   return (
     <ActivityContext.Provider
-      value={{ activities, setActivities, incrementLog }}
+      value={{
+        activities,
+        incrementLog,
+        addActivity,
+        currentStreak,
+        longestStreak,
+        totalLogs,
+        mostLoggedActivity,
+      }}
     >
       {children}
     </ActivityContext.Provider>
