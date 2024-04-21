@@ -1,25 +1,19 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between p-24 `}
     >
-      <div>
-        <Link href={"/dashboard"}>
-          <Button variant={"ghost"}>Dashboard</Button>
-        </Link>
+ 
+      <div className="font-black lg:text-4xl text-3xl w-full lg:w-1/2 m-10 text-center">
+        You&apos;ll never change your life until you change the habits you do
+        daily.
       </div>
-      <div className="font-black text-3xl text-center">
-        {" "}
-        You Cant Grow Unless You Arent Tracking it
-      </div>
-      <div className="flex flex-col gap-5 w-full">
+      <div className="flex flex-col gap-5 lg:w-1/3 m-auto w-full">
         <Link className="w-full " href={"/why"}>
           <Button className="w-full">Sign up</Button>
         </Link>

@@ -72,7 +72,7 @@ function Index() {
     let currentDate = new Date(startDate.getTime());
 
     while (currentDate <= endDate) {
-      const count = Math.tan(Math.random() * 10); // Random count between 0 and 99
+      const count = Math.sinh(Math.random() * 10); // Random count between 0 and 99
       data.push({
         date: currentDate.toISOString().split("T")[0], // Format date as "YYYY-MM-DD"
         count: count,
@@ -176,12 +176,14 @@ function Index() {
   return (
     <div className="p-10">
       <div className="flex flex-row items-center  justify-center">
-        <div className="p-5 text-3xl font-black text-center">Habbits</div>
+        <div className="p-5 text-3xl font-black text-center">
+          Track Your Habbits
+        </div>
       </div>
       <div className="flex flex-col gap-5 justify-center items-center p-10">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline">Add a new Activity</Button>
+            <Button variant="destructive">Add a new habbit + </Button>
           </DialogTrigger>
           <DialogContent className="w-[75%] rounded-lg">
             <DialogHeader>
@@ -238,7 +240,7 @@ function Index() {
         </Dialog>
         <DatePickerDemo></DatePickerDemo>
       </div>
-      <div className="space-y-5">
+      <div className="lg:w-1/2 w-full m-auto space-y-5">
         {activities.map((activity) => {
           return (
             <div key={activity.id}>
@@ -258,8 +260,8 @@ function Index() {
           );
         })}
       </div>
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="text-4xl text-center font-black p-10">Stats</div>
+      <div className="text-4xl text-center font-black p-10">Stats</div>
+      <div className="grid gap-4 grid-col-1 lg:grid-col-1 md:grid-cols-2 lg:w-1/2 w-full m-auto">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -310,7 +312,7 @@ function Index() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-4 mt-4">
+      <div className="grid gap-4 mt-4 w-full lg:w-1/2 m-auto">
         <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
         <LineChartComponent data={activityData}></LineChartComponent>
         <PieChartComponent
