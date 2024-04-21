@@ -5,6 +5,8 @@ import { DatePickerDemo } from "@/components/DatePicker";
 import { HexColorPicker } from "react-colorful";
 import { LineChartComponent } from "@/components/charts/linechart";
 import { PieChartComponent } from "@/components/charts/piechart";
+import { BiArrowToTop } from "react-icons/bi";
+
 import Link from "next/link";
 import { FaHistory } from "react-icons/fa";
 import {
@@ -61,12 +63,16 @@ function Index() {
 
     return data;
   }
-  function generateActivityData(startDate: Date, endDate: Date) {
+  function generateActivityData(
+    startDate: Date,
+    endDate: Date,
+    activites: object[]
+  ) {
     const data = [];
     let currentDate = new Date(startDate.getTime());
 
     while (currentDate <= endDate) {
-      const count = Math.floor(Math.random() * 100); // Random count between 0 and 99
+      const count = Math.tan(Math.random() * 10); // Random count between 0 and 99
       data.push({
         date: currentDate.toISOString().split("T")[0], // Format date as "YYYY-MM-DD"
         count: count,
@@ -80,8 +86,6 @@ function Index() {
   startDate.setMonth(startDate.getMonth() - 6); // Set start date to 6 months ago
   const endDate = new Date(); // Today's date
 
-  const activityData = generateActivityData(startDate, endDate);
-
   const {
     activities,
     incrementLog,
@@ -91,10 +95,13 @@ function Index() {
     longestStreak,
     totalLogs,
   } = useActivity();
+  const activityData = generateActivityData(startDate, endDate, activities);
+
   var temp = mostLoggedActivity();
   function generateRandomActivities(
     numActivities: number,
-    activities: string[]
+    activities: string[],
+    logs: Date[][]
   ) {
     const colors = [
       "#FF6633",
@@ -151,7 +158,7 @@ function Index() {
 
     return Array.from({ length: numActivities }, (_, i) => ({
       name: activities[i],
-      count: Math.floor(Math.random() * 100),
+      count: logs[i].length,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
   }
@@ -293,7 +300,7 @@ function Index() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Most Logged</CardTitle>
-            <FaHistory className="h-4 w-4 text-muted-foreground" />
+            <BiArrowToTop className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{temp?.name}</div>
@@ -304,12 +311,14 @@ function Index() {
         </Card>
       </div>
       <div className="grid gap-4 mt-4">
-        <Heatmap data={randomData} params={{ activityId: "4" }}></Heatmap>
+        <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
         <LineChartComponent data={activityData}></LineChartComponent>
         <PieChartComponent
+          logs={totalLogs()}
           data={generateRandomActivities(
             activities.length,
-            activities.map((temp, _) => temp.name)
+            activities.map((temp, _) => temp.name),
+            activities.map((temp, _) => temp.logs)
           )}
         ></PieChartComponent>
       </div>

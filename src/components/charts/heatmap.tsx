@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import CalendarHeatmap, {
   ReactCalendarHeatmapValue,
 } from "react-calendar-heatmap";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import "react-calendar-heatmap/dist/styles.css";
 
@@ -19,7 +20,6 @@ import {
   CredenzaTitle,
 } from "@/components/ui/credenza";
 import { toast } from "@/components/ui/use-toast";
-
 
 interface Value {
   id: string;
@@ -140,24 +140,24 @@ export function Heatmap({ data, params }: HeatmapProps) {
           <CredenzaContent>
             <CredenzaHeader>
               <CredenzaTitle>
-                Delete logs from {selectedDate ? formatDate(selectedDate) : ""}?
+                logs from {selectedDate ? formatDate(selectedDate) : ""}
               </CredenzaTitle>
-              <CredenzaDescription>
-                This action cannot be undone.
+              <CredenzaDescription className="">
+                <ScrollArea className="h-24 z-50">
+                  {data.map((temp, id) => {
+                    return (
+                      <div className="" key={id}>
+                        <div className="">{temp.activity.name}</div>
+                      </div>
+                    );
+                  })}
+                </ScrollArea>
               </CredenzaDescription>
             </CredenzaHeader>
             <CredenzaFooter className="flex flex-col-reverse">
               <CredenzaClose asChild>
                 <Button variant="outline">Cancel</Button>
               </CredenzaClose>
-              <Button
-                onClick={handleDelete}
-
-                className="bg-red-600 focus:ring-red-600"
-              >
-                
-                <span>Delete</span>
-              </Button>
             </CredenzaFooter>
           </CredenzaContent>
         </Credenza>
