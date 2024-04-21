@@ -55,7 +55,7 @@ const initialActivities: Activity[] = [
     id: 5,
     name: "Reading Books",
     description: "short booskod",
-    good: false,
+    good: true,
     logs: [],
     lastLogged: null,
   },
