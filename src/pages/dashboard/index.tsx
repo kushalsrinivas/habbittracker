@@ -30,7 +30,6 @@ import {
 import { BsFire } from "react-icons/bs";
 import { Heatmap } from "@/components/charts/heatmap";
 function Index() {
-  const [color, setColor] = useState("#aabbcc");
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
 
@@ -207,12 +206,6 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Choose a Color
-                </Label>
-                <HexColorPicker color={color} onChange={setColor} />
-              </div>
             </div>
             <DialogFooter>
               <DialogClose className="flex flex-row gap-5 justify-between">
@@ -220,7 +213,7 @@ function Index() {
                 <Button
                   onClick={() => {
                     addActivity({
-                      color: color,
+                      color: "",
                       description: des,
                       id: Math.floor(Math.random() * 100),
                       name: name,
