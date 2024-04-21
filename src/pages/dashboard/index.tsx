@@ -365,7 +365,7 @@ function Index() {
             <GrScorecard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-4xl font-bold">
               {Math.round(Math.abs(1.12 * getGoodLogs() - getBadLogs() * 1.2))}
             </div>
             <PieChartComponent
