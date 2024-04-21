@@ -25,6 +25,7 @@ interface Value {
   id: string;
   date: string;
   count: number;
+  good: Boolean;
 }
 
 interface HeatmapProps {

@@ -6,6 +6,7 @@ import { HexColorPicker } from "react-colorful";
 import { LineChartComponent } from "@/components/charts/linechart";
 import { PieChartComponent } from "@/components/charts/piechart";
 import { BiArrowToTop } from "react-icons/bi";
+import { GrScorecard } from "react-icons/gr";
 
 import Link from "next/link";
 import { FaHistory } from "react-icons/fa";
@@ -90,6 +91,8 @@ function Index() {
 
   const {
     activities,
+    getGoodLogs,
+    getBadLogs,
     incrementLog,
     addActivity,
     mostLoggedActivity,
@@ -295,6 +298,34 @@ function Index() {
       </div>
       <div className="text-4xl text-center font-black p-10">Stats</div>
       <div className="grid gap-4 grid-col-1 lg:grid-col-1 md:grid-cols-2 lg:w-1/2 w-full m-auto">
+        <Card className="col-span-2">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Score</CardTitle>
+            <GrScorecard className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {Math.round(Math.abs(1.12 * getGoodLogs() - getBadLogs() * 1.2))}
+            </div>
+            <PieChartComponent
+              logs={totalLogs()}
+              data={[
+                {
+                  name: "Positive",
+                  count: getGoodLogs(),
+                  color: "#66991A",
+                },
+                {
+                  name: "Negative",
+                  count: getBadLogs(),
+                  color: "#FF3380",
+                },
+              ]}
+            ></PieChartComponent>
+            <p className="text-xs text-muted-foreground">Today</p>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">

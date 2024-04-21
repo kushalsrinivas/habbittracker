@@ -9,7 +9,8 @@ interface Activity {
 
 interface ActivityContextType {
   activities: Activity[];
-
+  getGoodLogs: () => number;
+  getBadLogs: () => number;
   incrementLog: (activityId: number) => void;
   addActivity: (activity: Activity) => void;
   currentStreak: () => number;
@@ -197,6 +198,19 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     return activities.reduce((acc, activity) => acc + activity.logs.length, 0);
   };
 
+  const getGoodLogs = (): number => {
+    return activities.reduce(
+      (acc, activity) => activity.good && acc + activity.logs.length,
+      0
+    );
+  };
+  const getBadLogs = (): number => {
+    return activities.reduce(
+      (acc, activity) =>
+        activity.good == false ? acc + activity.logs.length : acc,
+      0
+    );
+  };
   const mostLoggedActivity = (): Activity | null => {
     if (activities.length === 0) return null;
     return activities.reduce((prev, current) =>
@@ -207,6 +221,8 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     <ActivityContext.Provider
       value={{
         activities,
+        getGoodLogs,
+        getBadLogs,
         incrementLog,
         addActivity,
         currentStreak,
