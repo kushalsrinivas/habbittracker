@@ -23,7 +23,7 @@ const initialActivities: Activity[] = [
     id: 1,
     name: "Hiking",
     description: "Exploring local trails.",
-    color: "#FF6347",
+    color: "#6666FF",
     logs: [],
     lastLogged: null,
   },

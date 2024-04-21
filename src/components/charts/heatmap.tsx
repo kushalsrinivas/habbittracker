@@ -20,18 +20,46 @@ import {
 } from "@/components/ui/credenza";
 import { toast } from "@/components/ui/use-toast";
 
-interface Activity {
-  id: number;
-  name: string;
-  description: string;
-  color: string;
-  logs: Date[]; // Array of log dates
-  lastLogged: Date | null;
+
+interface Value {
+  id: string;
+  date: string;
+  count: number;
 }
 
 interface HeatmapProps {
-  data: Activity[];
+  data: {
+    activity: {
+      id: string;
+      name: string;
+    };
+    id: string;
+    date: Date;
+    count: number;
+  }[];
   params: { activityId: string };
+}
+
+async function deleteActivity(activityId: string, logsId: string) {
+  const response = await fetch(`/api/activities/${activityId}/logs/${logsId}`, {
+    method: "DELETE",
+  });
+
+  if (!response?.ok) {
+    toast({
+      title: "Something went wrong.",
+      description: "Your activity was not deleted. Please try again.",
+      variant: "destructive",
+    });
+  } else {
+    toast({
+      title: "Item has been deleted.",
+      description: "Your activity has been deleted successfully.",
+      variant: "default",
+    });
+  }
+
+  return true;
 }
 
 export function Heatmap({ data, params }: HeatmapProps) {
@@ -40,6 +68,20 @@ export function Heatmap({ data, params }: HeatmapProps) {
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
   const [selectedLog, setSelectedLog] = React.useState<Value | null>(null);
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(null);
+
+  const handleDelete = async () => {
+    if (selectedLog) {
+      setIsDeleteLoading(true);
+      const deleted = await deleteActivity(params.activityId, selectedLog.id);
+
+      if (deleted) {
+        setIsDeleteLoading(false);
+        setShowDeleteAlert(false);
+        setSelectedLog(null);
+        router.refresh();
+      }
+    }
+  };
 
   const getColorClass = (count: number) => {
     if (count < 1) {
@@ -84,8 +126,8 @@ export function Heatmap({ data, params }: HeatmapProps) {
             ...value,
             date: value.date.toISOString(),
           }))}
-          //   classForValue={(value) => getColorClass(value ? value.count : 0)}
-          //   titleForValue={(value) => getTitle(value as Value)}
+          classForValue={(value) => getColorClass(value ? value.count : 0)}
+          titleForValue={(value) => getTitle(value as Value)}
           onClick={(value: ReactCalendarHeatmapValue<string> | undefined) => {
             if (value) {
               setSelectedLog(value as Value);
@@ -108,6 +150,14 @@ export function Heatmap({ data, params }: HeatmapProps) {
               <CredenzaClose asChild>
                 <Button variant="outline">Cancel</Button>
               </CredenzaClose>
+              <Button
+                onClick={handleDelete}
+
+                className="bg-red-600 focus:ring-red-600"
+              >
+                
+                <span>Delete</span>
+              </Button>
             </CredenzaFooter>
           </CredenzaContent>
         </Credenza>

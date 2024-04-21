@@ -1,9 +1,8 @@
-type ActivityEntry = {
+export type ActivityEntry = {
   name: string;
   count: number | null;
   color: string;
 };
-
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 import { Card } from "@/components/ui/card";

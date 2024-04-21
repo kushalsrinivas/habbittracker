@@ -83,13 +83,6 @@ function Index() {
 
   const activityData = generateActivityData(startDate, endDate);
 
-  function generateRandomActivities() {
-    return activities.map((activity, id) => ({
-      name: activity.name,
-      count: activity.logs.length,
-      color: activity.color.toLowerCase(),
-    }));
-  }
   const {
     activities,
     incrementLog,
@@ -100,7 +93,69 @@ function Index() {
     totalLogs,
   } = useActivity();
   var temp = mostLoggedActivity();
-  console.log(temp);
+  function generateRandomActivities(
+    numActivities: number,
+    activities: string[]
+  ) {
+    const colors = [
+      "#FF6633",
+      "#FFB399",
+      "#FF33FF",
+      "#FFFF99",
+      "#00B3E6",
+      "#E6B333",
+      "#3366E6",
+      "#999966",
+      "#99FF99",
+      "#B34D4D",
+      "#80B300",
+      "#809900",
+      "#E6B3B3",
+      "#6680B3",
+      "#66991A",
+      "#FF99E6",
+      "#CCFF1A",
+      "#FF1A66",
+      "#E6331A",
+      "#33FFCC",
+      "#66994D",
+      "#B366CC",
+      "#4D8000",
+      "#B33300",
+      "#CC80CC",
+      "#66664D",
+      "#991AFF",
+      "#E666FF",
+      "#4DB3FF",
+      "#1AB399",
+      "#E666B3",
+      "#33991A",
+      "#CC9999",
+      "#B3B31A",
+      "#00E680",
+      "#4D8066",
+      "#809980",
+      "#E6FF80",
+      "#1AFF33",
+      "#999933",
+      "#FF3380",
+      "#CCCC00",
+      "#66E64D",
+      "#4D80CC",
+      "#9900B3",
+      "#E64D66",
+      "#4DB380",
+      "#FF4D4D",
+      "#99E6E6",
+      "#6666FF",
+    ];
+
+    return Array.from({ length: numActivities }, (_, i) => ({
+      name: activities[i],
+      count: Math.floor(Math.random() * 100),
+      color: colors[Math.floor(Math.random() * colors.length)],
+    }));
+  }
   const randomData = generateRandomData().map((log) => ({
     activity: {
       id: "activity_" + Math.floor(Math.random() * 5),
@@ -256,10 +311,13 @@ function Index() {
         </Card>
       </div>
       <div className="grid gap-4 mt-4">
-        <Heatmap data={randomData} params={{ activityId: "1" }}></Heatmap>
+        <Heatmap data={randomData} params={{ activityId: "4" }}></Heatmap>
         <LineChartComponent data={activityData}></LineChartComponent>
         <PieChartComponent
-          data={generateRandomActivities()}
+          data={generateRandomActivities(
+            activities.length,
+            activities.map((temp, _) => temp.name)
+          )}
         ></PieChartComponent>
       </div>
     </div>
