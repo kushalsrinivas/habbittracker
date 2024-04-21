@@ -34,6 +34,7 @@ import { Heatmap } from "@/components/charts/heatmap";
 function Index() {
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
+  const [isGood, setIsgood] = useState(true);
 
   function generateRandomData() {
     const data = [];
@@ -222,7 +223,7 @@ function Index() {
                 <Button
                   onClick={() => {
                     addActivity({
-                      color: "",
+                      good: isGood,
                       description: des,
                       id: Math.floor(Math.random() * 100),
                       name: name,
@@ -244,7 +245,13 @@ function Index() {
         {activities.map((activity) => {
           return (
             <div key={activity.id}>
-              <Card>
+              <Card
+                className={`${
+                  activity.good
+                    ? "border-green-900 text-green-600"
+                    : "border-red-600 text-red-600"
+                }`}
+              >
                 <CardHeader className="grid grid-cols-4 items-center  justify-between gap-5">
                   <div className={` h-6 w-6 rounded-md `}>
                     {activity.logs.length}

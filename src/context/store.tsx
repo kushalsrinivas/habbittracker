@@ -2,7 +2,7 @@ interface Activity {
   id: number;
   name: string;
   description: string;
-  color: string;
+  good: Boolean;
   logs: Date[]; // Array of log dates
   lastLogged: Date | null;
 }
@@ -23,7 +23,7 @@ const initialActivities: Activity[] = [
     id: 1,
     name: "Smoking",
     description: "smoking cigarattes",
-    color: "#6666FF",
+    good: false,
     logs: [],
     lastLogged: null,
   },
@@ -31,7 +31,7 @@ const initialActivities: Activity[] = [
     id: 2,
     name: "Alcohol",
     description: "Alcoholism",
-    color: "#4682B4",
+    good: false,
     logs: [],
     lastLogged: null,
   },
@@ -39,23 +39,23 @@ const initialActivities: Activity[] = [
     id: 3,
     name: "Over Spending",
     description: "",
-    color: "#FFD700",
+    good: false,
     logs: [],
     lastLogged: null,
   },
   {
     id: 4,
-    name: "Gamblign",
-    description: "",
-    color: "#32CD32",
+    name: "Exercise",
+    description: "do some weitgrhss",
+    good: true,
     logs: [],
     lastLogged: null,
   },
   {
     id: 5,
-    name: "Pornography",
-    description: "",
-    color: "#8A2BE2",
+    name: "Reading Books",
+    description: "short booskod",
+    good: false,
     logs: [],
     lastLogged: null,
   },
@@ -107,7 +107,7 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     id: number;
     name: string;
     description: string;
-    color: string;
+    good: Boolean;
     logs: Date[]; // Array of log dates
     lastLogged: Date | null;
   }
