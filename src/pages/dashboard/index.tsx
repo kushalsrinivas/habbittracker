@@ -192,8 +192,8 @@ function Index() {
               <DialogTitle>Add a Acitivity</DialogTitle>
               <DialogDescription>you know what to do</DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
+            <div className=" gap-4 py-4">
+              <div className="flex flex-col items-start gap-4">
                 <Label htmlFor="name" className="text-right">
                   Name
                 </Label>
@@ -205,7 +205,7 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="flex flex-col mt-5 items-start gap-4">
                 <Label htmlFor="username" className="text-right">
                   Description
                 </Label>
@@ -217,32 +217,34 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
-              <div className="grid grid-cols-4 items-center gap-4">
+              <div className="flex flex-col mt-5 items-start gap-4">
                 <Label htmlFor="username" className="text-right">
                   is this a good habbit or a bad habbit ?
                 </Label>
-                <Button
-                  onClick={() => {
-                    setIsgood(true);
-                  }}
-                  className={`${isGood ? "opacity-1" : "opacity-50"}`}
-                  variant={"default"}
-                >
-                  Good Habbit
-                </Button>
-                <Button
-                  className={`${isGood ? "opacity-50" : "opacity-1"}`}
-                  onClick={() => {
-                    setIsgood(false);
-                  }}
-                  variant={"default"}
-                >
-                  Bad Habbit
-                </Button>
+                <div className="flex flex-row gap-4 justify-between">
+                  <Button
+                    onClick={() => {
+                      setIsgood(true);
+                    }}
+                    className={`${isGood ? "opacity-1" : "opacity-50"}`}
+                    variant={"ghost"}
+                  >
+                    Good Habbit
+                  </Button>
+                  <Button
+                    className={`${isGood ? "opacity-50" : "opacity-1"}`}
+                    onClick={() => {
+                      setIsgood(false);
+                    }}
+                    variant={"ghost"}
+                  >
+                    Bad Habbit
+                  </Button>
+                </div>
               </div>
             </div>
             <DialogFooter>
-              <DialogClose className="flex flex-row gap-5 justify-between">
+              <DialogClose className="flex flex-row gap-5 w-full justify-between">
                 <Button variant={"destructive"}>Exit</Button>
                 <Button
                   onClick={() => {
