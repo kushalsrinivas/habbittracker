@@ -41,7 +41,7 @@ export default function Home() {
       ></script>
     </>,
     <>
-      <blockquote class="twitter-tweet">
+      <blockquote className="twitter-tweet">
         <p lang="en" dir="ltr">
           I&#39;m just rebuilding my life. Unlearning old toxic habits and
           relearning new good healthy ones.
