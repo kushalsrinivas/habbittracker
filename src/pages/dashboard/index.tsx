@@ -77,6 +77,7 @@ function Index() {
       data.push({
         date: currentDate.toISOString().split("T")[0], // Format date as "YYYY-MM-DD"
         count: count,
+        good: Math.floor(Math.random() * 10) % 2 === 0 ? true : false,
       });
       currentDate.setDate(currentDate.getDate() + 1); // Move to next day
     }
@@ -329,10 +330,22 @@ function Index() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card
+          className={`${
+            temp?.good
+              ? "border-green-700 text-green-600"
+              : "border-red-600 text-red-600"
+          } `}
+        >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Most Logged</CardTitle>
-            <BiArrowToTop className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className={`text-sm font-medium`}>Most Logged</CardTitle>
+            <BiArrowToTop
+              className={`h-4 w-4  text-muted-foreground ${
+                temp?.good
+                  ? "border-green-700 text-green-600"
+                  : "border-red-600 text-red-600"
+              } `}
+            />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{temp?.name}</div>
@@ -344,7 +357,14 @@ function Index() {
       </div>
       <div className="grid gap-4 mt-4 w-full lg:w-1/2 m-auto">
         <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
-        <LineChartComponent data={activityData}></LineChartComponent>
+        <LineChartComponent
+          data={activityData.filter((temp, _) => temp.good)}
+          good={true}
+        ></LineChartComponent>
+        <LineChartComponent
+          data={activityData.filter((temp, _) => temp.good!)}
+          good={false}
+        ></LineChartComponent>
         <PieChartComponent
           logs={totalLogs()}
           data={generateRandomActivities(

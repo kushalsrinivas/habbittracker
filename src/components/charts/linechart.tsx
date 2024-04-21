@@ -17,9 +17,10 @@ import { Card } from "@/components/ui/card";
 
 interface LineChartProps {
   data: ActivityByDate[];
+  good: Boolean;
 }
 
-export function LineChartComponent({ data }: LineChartProps) {
+export function LineChartComponent({ data, good }: LineChartProps) {
   return (
     <Card className="p-2">
       <ResponsiveContainer width="100%" height={250}>
@@ -48,7 +49,7 @@ export function LineChartComponent({ data }: LineChartProps) {
           <Line
             type="monotone"
             dataKey="count"
-            stroke="#DC2626"
+            stroke={good ? "#DC2626" : "#809900"}
             dot={false}
             activeDot={{ r: 8 }}
           />
