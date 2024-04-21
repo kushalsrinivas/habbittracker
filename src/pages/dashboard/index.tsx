@@ -216,6 +216,29 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  is this a good habbit or a bad habbit ?
+                </Label>
+                <Button
+                  onClick={() => {
+                    setIsgood(true);
+                  }}
+                  className={`${isGood ? "opacity-1" : "opacity-50"}`}
+                  variant={"default"}
+                >
+                  Good Habbit
+                </Button>
+                <Button
+                  className={`${isGood ? "opacity-50" : "opacity-1"}`}
+                  onClick={() => {
+                    setIsgood(false);
+                  }}
+                  variant={"default"}
+                >
+                  Bad Habbit
+                </Button>
+              </div>
             </div>
             <DialogFooter>
               <DialogClose className="flex flex-row gap-5 justify-between">
