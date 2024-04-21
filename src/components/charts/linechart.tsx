@@ -49,7 +49,7 @@ export function LineChartComponent({ data, good }: LineChartProps) {
           <Line
             type="monotone"
             dataKey="count"
-            stroke={good ? "#DC2626" : "#809900"}
+            stroke={good ? "#809900" : "#DC2626"}
             dot={false}
             activeDot={{ r: 8 }}
           />

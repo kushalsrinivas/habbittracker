@@ -31,7 +31,7 @@ const initialActivities: Activity[] = [
   {
     id: 2,
     name: "Alcohol",
-    description: "Alcoholism",
+    description: "Consuming alcohol",
     good: false,
     logs: [],
     lastLogged: null,
@@ -39,7 +39,7 @@ const initialActivities: Activity[] = [
   {
     id: 3,
     name: "Over Spending",
-    description: "",
+    description: "Recklessly spending money on useless stuff",
     good: false,
     logs: [],
     lastLogged: null,
