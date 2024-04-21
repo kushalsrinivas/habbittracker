@@ -103,8 +103,6 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     setActivities([...activities, { ...activity, logs: [] }]);
   };
 
-  import { differenceInCalendarDays } from "date-fns";
-
   interface Activity {
     id: number;
     name: string;

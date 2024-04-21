@@ -14,6 +14,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.6.0",
@@ -21,10 +22,12 @@
     "next": "14.2.2",
     "next-auth": "^4.24.7",
     "react": "^18",
+    "react-calendar-heatmap": "^1.9.0",
     "react-colorful": "^5.6.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
     "react-icons": "^5.1.0",
+    "recharts": "^2.12.5",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.0"
@@ -32,11 +35,13 @@
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-calendar-heatmap": "^1.6.7",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
