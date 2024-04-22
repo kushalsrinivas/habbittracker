@@ -17,6 +17,7 @@ interface ActivityContextType {
   longestStreak: () => number;
   totalLogs: () => number;
   mostLoggedActivity: () => Activity | null;
+  leastLoggedActivity: () => Activity | null;
 }
 
 const initialActivities: Activity[] = [
@@ -217,6 +218,13 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
       prev.logs.length > current.logs.length ? prev : current
     );
   };
+  const leastLoggedActivity = (): Activity | null => {
+    if (activities.length === 0) return null;
+    return activities.reduce((prev, current) =>
+      prev.logs.length < current.logs.length ? prev : current
+    );
+  };
+
   return (
     <ActivityContext.Provider
       value={{
@@ -229,6 +237,7 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
         longestStreak,
         totalLogs,
         mostLoggedActivity,
+        leastLoggedActivity,
       }}
     >
       {children}

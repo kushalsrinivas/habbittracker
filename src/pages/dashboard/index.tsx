@@ -5,7 +5,7 @@ import { DatePickerDemo } from "@/components/DatePicker";
 import { HexColorPicker } from "react-colorful";
 import { LineChartComponent } from "@/components/charts/linechart";
 import { PieChartComponent } from "@/components/charts/piechart";
-import { BiArrowToTop } from "react-icons/bi";
+import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
 import { GrScorecard } from "react-icons/gr";
 
 import Link from "next/link";
@@ -99,6 +99,7 @@ function Index() {
     currentStreak,
     longestStreak,
     totalLogs,
+    leastLoggedActivity,
   } = useActivity();
   const activityData = generateActivityData(startDate, endDate, activities);
 
@@ -322,7 +323,7 @@ function Index() {
             <p className="text-xs text-muted-foreground">All time</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="col-span-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Logs</CardTitle>
             <FaHistory className="h-4 w-4 text-muted-foreground" />
@@ -354,6 +355,35 @@ function Index() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{temp?.name}</div>
+            <p className="text-xs text-muted-foreground">
+              {/* {displayDateRange(searchParams)} */}
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card
+          className={`${
+            leastLoggedActivity()?.good
+              ? "border-green-700 text-green-600"
+              : "border-red-600 text-red-600"
+          } `}
+        >
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className={`text-sm font-medium`}>
+              Least Logged
+            </CardTitle>
+            <BiArrowToBottom
+              className={`h-4 w-4  text-muted-foreground ${
+                leastLoggedActivity()?.good
+                  ? "border-green-700 text-green-600"
+                  : "border-red-600 text-red-600"
+              } `}
+            />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {leastLoggedActivity()?.name}
+            </div>
             <p className="text-xs text-muted-foreground">
               {/* {displayDateRange(searchParams)} */}
             </p>
