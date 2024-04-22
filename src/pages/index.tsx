@@ -64,11 +64,8 @@ export default function Home() {
     >
       <div>{list[Math.floor(Math.random() * list.length)]}</div>
       <div className="flex flex-col gap-5 lg:w-1/3 m-auto w-full">
-        <Link className="w-full " href={"/why"}>
-          <Button className="w-full">Sign up</Button>
-        </Link>
-        <Link className="w-full " href={"/why"}>
-          <Button className="w-full">Sign In</Button>
+        <Link className="w-full " href={"/dashboard"}>
+          <Button className="w-full">Dashboard</Button>
         </Link>
       </div>
     </main>
