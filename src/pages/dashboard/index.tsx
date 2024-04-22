@@ -366,19 +366,19 @@ function Index() {
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold">
-              {Math.round(Math.abs(1.12 * getGoodLogs() - getBadLogs() * 1.2))}
+              {Math.round(Math.abs(12 * getGoodLogs() - getBadLogs() * 20))}
             </div>
             <PieChartComponent
               logs={totalLogs()}
               data={[
                 {
-                  name: "Positive",
-                  count: getGoodLogs(),
+                  name: "Points gained",
+                  count: getGoodLogs() * 12 || 0,
                   color: "#66991A",
                 },
                 {
-                  name: "Negative",
-                  count: getBadLogs(),
+                  name: "Points lost",
+                  count: getBadLogs() * 20 || 0,
                   color: "#FF3380",
                 },
               ]}

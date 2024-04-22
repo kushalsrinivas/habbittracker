@@ -200,7 +200,7 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
 
   const getGoodLogs = (): number => {
     return activities.reduce(
-      (acc, activity) => activity.good && acc + activity.logs.length,
+      (acc, activity) => (activity.good ? acc + activity.logs.length : acc),
       0
     );
   };
