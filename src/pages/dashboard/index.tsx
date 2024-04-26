@@ -36,6 +36,7 @@ function Index() {
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
   const [isGood, setIsgood] = useState(true);
+  const [priority, setPriority] = useState(1);
 
   function generateRandomData() {
     const data = [];
@@ -179,6 +180,18 @@ function Index() {
     date: log.date,
     count: log.count,
   }));
+  const handlePriority = (e: any) => {
+    const id = e.target.id;
+    if (id === "low") {
+      setPriority(1);
+    }
+    if (id === "medium") {
+      setPriority(2);
+    }
+    if (id === "high") {
+      setPriority(3);
+    }
+  };
   return (
     <div className="p-10">
       <div className="flex flex-row items-center  justify-center">
@@ -246,6 +259,43 @@ function Index() {
                   </Button>
                 </div>
               </div>
+              <div className="flex flex-col mt-5 items-start gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Priority
+                </Label>
+                <div className="flex flex-row gap-4 justify-between">
+                  <Button
+                    id="low"
+                    onClick={handlePriority}
+                    className={`${
+                      priority === 1 ? "opacity-1 " : "opacity-50"
+                    } `}
+                    variant={"ghost"}
+                  >
+                    Low
+                  </Button>
+                  <Button
+                    id="medium"
+                    onClick={handlePriority}
+                    className={`${
+                      priority === 2 ? "opacity-1 " : "opacity-50"
+                    } `}
+                    variant={"ghost"}
+                  >
+                    Medium
+                  </Button>
+                  <Button
+                    id="high"
+                    className={`${
+                      priority === 3 ? "opacity-1 " : "opacity-50"
+                    } `}
+                    onClick={handlePriority}
+                    variant={"ghost"}
+                  >
+                    High
+                  </Button>
+                </div>
+              </div>
             </div>
             <DialogFooter>
               <DialogClose className="flex flex-row gap-5 w-full justify-between">
@@ -254,6 +304,7 @@ function Index() {
                   onClick={() => {
                     addActivity({
                       good: isGood,
+                      weights: 1,
                       description: des,
                       id: Math.floor(Math.random() * 100),
                       name: name,

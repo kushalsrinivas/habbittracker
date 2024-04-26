@@ -1,4 +1,5 @@
 interface Activity {
+  weights: number;
   id: number;
   name: string;
   description: string;
@@ -23,42 +24,52 @@ interface ActivityContextType {
 const initialActivities: Activity[] = [
   {
     id: 1,
+    weights: 2,
     name: "Smoking",
     description: "smoking cigarattes",
     good: false,
     logs: [],
+
     lastLogged: null,
   },
   {
     id: 2,
+    weights: 2,
     name: "Alcohol",
     description: "Consuming alcohol",
     good: false,
     logs: [],
+
     lastLogged: null,
   },
   {
     id: 3,
+    weights: 1,
     name: "Over Spending",
     description: "Recklessly spending money on useless stuff",
     good: false,
     logs: [],
+
     lastLogged: null,
   },
   {
     id: 4,
+    weights: 3,
     name: "Exercise",
     description: "do some weitgrhss",
     good: true,
     logs: [],
+
     lastLogged: null,
   },
   {
     id: 5,
+    weights: 3,
     name: "Reading Books",
     description: "short booskod",
     good: true,
     logs: [],
+
     lastLogged: null,
   },
 ];
@@ -104,15 +115,6 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
   const addActivity = (activity: Activity) => {
     setActivities([...activities, { ...activity, logs: [] }]);
   };
-
-  interface Activity {
-    id: number;
-    name: string;
-    description: string;
-    good: Boolean;
-    logs: Date[]; // Array of log dates
-    lastLogged: Date | null;
-  }
 
   interface ActivityContextType {
     activities: Activity[];
@@ -200,15 +202,18 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
   };
 
   const getGoodLogs = (): number => {
-    return activities.reduce(
-      (acc, activity) => (activity.good ? acc + activity.logs.length : acc),
-      0
-    );
+    return activities.reduce((acc, activity) => {
+      return activity.good
+        ? acc + activity.logs.length * activity.weights
+        : acc;
+    }, 0);
   };
   const getBadLogs = (): number => {
     return activities.reduce(
       (acc, activity) =>
-        activity.good == false ? acc + activity.logs.length : acc,
+        activity.good == false
+          ? acc + activity.logs.length * activity.weights
+          : acc,
       0
     );
   };
