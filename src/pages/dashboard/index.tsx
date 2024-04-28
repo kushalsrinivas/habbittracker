@@ -108,7 +108,9 @@ function Index() {
   function generateRandomActivities(
     numActivities: number,
     activities: string[],
-    logs: Date[][]
+    logs: Date[][],
+    isGood: Boolean[],
+    weights: number[]
   ) {
     const colors = [
       "#FF6633",
@@ -165,7 +167,9 @@ function Index() {
 
     return Array.from({ length: numActivities }, (_, i) => ({
       name: activities[i],
-      count: logs[i].length,
+      count: isGood
+        ? logs[i].length * weights[i] * 12
+        : logs[i].length * weights[i] * 20,
       color: colors[Math.floor(Math.random() * colors.length)],
     }));
   }
@@ -449,6 +453,7 @@ function Index() {
             <div className="text-4xl font-bold">
               {Math.round(Math.abs(12 * getGoodLogs() - getBadLogs() * 20))}
             </div>
+
             <PieChartComponent
               logs={totalLogs()}
               data={[
@@ -464,6 +469,16 @@ function Index() {
                 },
               ]}
             ></PieChartComponent>
+            <PieChartComponent
+              logs={totalLogs()}
+              data={generateRandomActivities(
+                activities.length,
+                activities.map((temp, _) => temp.name),
+                activities.map((temp, _) => temp.logs),
+                activities.map((temp, _) => temp.good),
+                activities.map((temp, _) => temp.weights)
+              )}
+            ></PieChartComponent>
             <p className="text-xs text-muted-foreground">Today</p>
           </CardContent>
         </Card>
@@ -477,14 +492,7 @@ function Index() {
           data={activityData.filter((temp, _) => temp.good!)}
           good={false}
         ></LineChartComponent>
-        <PieChartComponent
-          logs={totalLogs()}
-          data={generateRandomActivities(
-            activities.length,
-            activities.map((temp, _) => temp.name),
-            activities.map((temp, _) => temp.logs)
-          )}
-        ></PieChartComponent>
+
         <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
       </div>
     </div>
