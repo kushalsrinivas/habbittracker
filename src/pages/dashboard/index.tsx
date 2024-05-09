@@ -32,6 +32,22 @@ import {
 } from "@/components/ui/card";
 import { BsFire } from "react-icons/bs";
 import { Heatmap } from "@/components/charts/heatmap";
+import { count } from "console";
+interface Activity {
+  weights: number;
+  id: number;
+  name: string;
+  description: string;
+  good: Boolean;
+  logs: Date[]; // Array of log dates
+  lastLogged: Date | null;
+  logStrings: String[];
+}
+interface ActivityData {
+  date: String;
+  count: number;
+  good: boolean;
+}
 function Index() {
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
@@ -66,29 +82,8 @@ function Index() {
 
     return data;
   }
-  function generateActivityData(
-    startDate: Date,
-    endDate: Date,
-    activites: object[]
-  ) {
-    const data = [];
-    let currentDate = new Date(startDate.getTime());
 
-    while (currentDate <= endDate) {
-      const count = Math.sinh(Math.random() * 10); // Random count between 0 and 99
-      data.push({
-        date: currentDate.toISOString().split("T")[0], // Format date as "YYYY-MM-DD"
-        count: count,
-        good: Math.floor(Math.random() * 10) % 2 === 0 ? true : false,
-      });
-      currentDate.setDate(currentDate.getDate() + 1); // Move to next day
-    }
-
-    return data;
-  }
-  const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 6); // Set start date to 6 months ago
-  const endDate = new Date(); // Today's date
+  // Today's date
 
   const {
     activities,
@@ -101,8 +96,30 @@ function Index() {
     longestStreak,
     totalLogs,
     leastLoggedActivity,
+    getlastLogged,
+    getFirstLogged,
   } = useActivity();
-  const activityData = generateActivityData(startDate, endDate, activities);
+  function generateActivityData(activites: Activity[]) {
+    const data: { date: String; count: number; good: Boolean }[] = [];
+
+    activites.map((activity, _) => {
+      console.log(activity.good);
+      data.push({
+        date: activity.logStrings[0], // Format date as "YYYY-MM-DD"
+        count: activity.logs.length,
+        good: activity.good,
+        // Move to next day
+      });
+    });
+
+    return data;
+  }
+  const startDate = new Date();
+  startDate.setMonth(startDate.getMonth() - 6); // Set start date to 6 months ago
+  const endDate = new Date(); // Today's date
+  const activityData = generateActivityData(activities);
+
+  console.log("activites : ", activities);
 
   var temp = mostLoggedActivity();
   function generateRandomActivities(
@@ -313,6 +330,7 @@ function Index() {
                       id: Math.floor(Math.random() * 100),
                       name: name,
                       lastLogged: null,
+                      logStrings: [],
                       logs: [],
                     });
                   }}
@@ -484,14 +502,32 @@ function Index() {
         </Card>
       </div>
       <div className="grid gap-4 mt-4 w-full lg:w-1/2 m-auto">
-        <LineChartComponent
-          data={activityData.filter((temp, _) => temp.good)}
-          good={true}
-        ></LineChartComponent>
-        <LineChartComponent
-          data={activityData.filter((temp, _) => temp.good!)}
-          good={false}
-        ></LineChartComponent>
+        {activities.length !== 0 && (
+          <>
+            <LineChartComponent
+              data={activityData.filter((temp, _) => {
+                if (temp.good) {
+                  return {
+                    date: temp.date,
+                    count: temp.count,
+                  };
+                }
+              })}
+              good={true}
+            ></LineChartComponent>
+            <LineChartComponent
+              data={activityData.filter((temp, _) => {
+                if (temp.good === false) {
+                  return {
+                    date: temp.date,
+                    count: temp.count,
+                  };
+                }
+              })}
+              good={false}
+            ></LineChartComponent>{" "}
+          </>
+        )}
 
         <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
       </div>

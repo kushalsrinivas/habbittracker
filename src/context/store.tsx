@@ -6,6 +6,7 @@ interface Activity {
   good: Boolean;
   logs: Date[]; // Array of log dates
   lastLogged: Date | null;
+  logStrings: String[];
 }
 
 interface ActivityContextType {
@@ -17,8 +18,11 @@ interface ActivityContextType {
   currentStreak: () => number;
   longestStreak: () => number;
   totalLogs: () => number;
+
   mostLoggedActivity: () => Activity | null;
   leastLoggedActivity: () => Activity | null;
+  getlastLogged: (activity: Activity[]) => Activity;
+  getFirstLogged: (activity: Activity[]) => Activity;
 }
 
 const initialActivities: Activity[] = [
@@ -29,6 +33,7 @@ const initialActivities: Activity[] = [
     description: "smoking cigarattes",
     good: false,
     logs: [],
+    logStrings: [],
 
     lastLogged: null,
   },
@@ -39,6 +44,7 @@ const initialActivities: Activity[] = [
     description: "Consuming alcohol",
     good: false,
     logs: [],
+    logStrings: [],
 
     lastLogged: null,
   },
@@ -49,6 +55,7 @@ const initialActivities: Activity[] = [
     description: "Recklessly spending money on useless stuff",
     good: false,
     logs: [],
+    logStrings: [],
 
     lastLogged: null,
   },
@@ -58,6 +65,8 @@ const initialActivities: Activity[] = [
     name: "Exercise",
     description: "do some weitgrhss",
     good: true,
+    logStrings: [],
+
     logs: [],
 
     lastLogged: null,
@@ -68,6 +77,8 @@ const initialActivities: Activity[] = [
     name: "Reading Books",
     description: "short booskod",
     good: true,
+    logStrings: [],
+
     logs: [],
 
     lastLogged: null,
@@ -105,6 +116,10 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
           ...activity,
           logs: [...activity.logs, newLogDate],
           lastLogged: newLogDate,
+          logStrings: [
+            ...activity.logStrings,
+            newLogDate.toISOString().slice(0, 10),
+          ],
         };
       }
       return activity;
@@ -121,6 +136,27 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     longestStreak: () => number;
     currentStreak: () => number;
   }
+
+  const getlastLogged = (activities: Activity[]): Activity => {
+    let mostRecent: Activity = activities[0];
+
+    activities.forEach((activity) => {
+      if (activity.lastLogged! > mostRecent.lastLogged!) {
+        mostRecent = activity;
+      }
+    });
+    return mostRecent;
+  };
+  const getFirstLogged = (activities: Activity[]): Activity => {
+    let mostRecent: Activity = activities[0];
+
+    activities.forEach((activity) => {
+      if (activity.lastLogged! < mostRecent.lastLogged!) {
+        mostRecent = activity;
+      }
+    });
+    return mostRecent;
+  };
 
   const currentStreak = (): number => {
     let maxCurrentStreak = 0;
@@ -243,6 +279,8 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
         totalLogs,
         mostLoggedActivity,
         leastLoggedActivity,
+        getlastLogged,
+        getFirstLogged,
       }}
     >
       {children}
