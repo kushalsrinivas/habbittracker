@@ -9,6 +9,7 @@ import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
 import { GrScorecard } from "react-icons/gr";
 import Donut from "@/components/charts/donut";
 import RadarChartComponent from "@/components/charts/radar";
+import BarChartComponent from "@/components/charts/bar";
 import Link from "next/link";
 import { FaHistory } from "react-icons/fa";
 import {
@@ -219,8 +220,8 @@ function Index() {
         <div className="p-5 text-3xl font-black text-center">
           Track Your Habbits
         </div>
-        <Donut></Donut>
       </div>
+
       <div className="flex flex-col gap-5 justify-center items-center p-10">
         <Dialog>
           <DialogTrigger asChild>
@@ -474,31 +475,7 @@ function Index() {
               {Math.round(Math.abs(12 * getGoodLogs() - getBadLogs() * 20))}
             </div>
 
-            <PieChartComponent
-              logs={totalLogs()}
-              data={[
-                {
-                  name: "Points gained",
-                  count: getGoodLogs() * 12 || 0,
-                  color: "#66991A",
-                },
-                {
-                  name: "Points lost",
-                  count: getBadLogs() * 20 || 0,
-                  color: "#FF3380",
-                },
-              ]}
-            ></PieChartComponent>
-            <PieChartComponent
-              logs={totalLogs()}
-              data={generateRandomActivities(
-                activities.length,
-                activities.map((temp, _) => temp.name),
-                activities.map((temp, _) => temp.logs),
-                activities.map((temp, _) => temp.good),
-                activities.map((temp, _) => temp.weights)
-              )}
-            ></PieChartComponent>
+            <BarChartComponent></BarChartComponent>
             <p className="text-xs text-muted-foreground">Today</p>
           </CardContent>
         </Card>
