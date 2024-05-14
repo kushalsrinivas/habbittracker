@@ -7,7 +7,8 @@ import { LineChartComponent } from "@/components/charts/linechart";
 import { PieChartComponent } from "@/components/charts/piechart";
 import { BiArrowToBottom, BiArrowToTop } from "react-icons/bi";
 import { GrScorecard } from "react-icons/gr";
-
+import Donut from "@/components/charts/donut";
+import RadarChartComponent from "@/components/charts/radar";
 import Link from "next/link";
 import { FaHistory } from "react-icons/fa";
 import {
@@ -103,7 +104,6 @@ function Index() {
     const data: { date: String; count: number; good: Boolean }[] = [];
 
     activites.map((activity, _) => {
-      console.log(activity.good);
       data.push({
         date: activity.logStrings[0], // Format date as "YYYY-MM-DD"
         count: activity.logs.length,
@@ -219,6 +219,7 @@ function Index() {
         <div className="p-5 text-3xl font-black text-center">
           Track Your Habbits
         </div>
+        <Donut></Donut>
       </div>
       <div className="flex flex-col gap-5 justify-center items-center p-10">
         <Dialog>
@@ -462,6 +463,7 @@ function Index() {
             </p>
           </CardContent>
         </Card>
+
         <Card className="col-span-2">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Score</CardTitle>
