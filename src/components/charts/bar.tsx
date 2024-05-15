@@ -14,35 +14,35 @@ function BarChartComponent() {
   const data = [
     {
       name: "Carrer",
-      uv: 4000,
+      score: 80,
     },
     {
       name: "Disicpline",
-      uv: 3000,
+      score: 58,
     },
     {
       name: "Mental Health",
-      uv: 2000,
+      score: 36,
     },
     {
-      name: "Interests/Time Off",
-      uv: 2780,
+      name: "Time Off",
+      score: 61,
     },
     {
       name: "Physical Health",
-      uv: 1890,
+      score: 58,
     },
   ];
 
   return (
-    <ResponsiveContainer width="100%" height={730}>
-      <BarChart width={730} height={250} data={data} layout="vertical">
+    <ResponsiveContainer className={""} width="100%" height={250}>
+      <BarChart width={730} height={250} data={data} layout="horizontal">
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis type="number" />
-        <YAxis dataKey="name" type="category" />
+        <YAxis type="number" domain={[0, 100]} />
+        <XAxis dataKey="name" type="category" />
         <Tooltip />
         <Legend />
-        <Bar dataKey="uv" fill="#82ca9d" />
+        <Bar dataKey="score" fill="#82ca9d" />
       </BarChart>
     </ResponsiveContainer>
   );

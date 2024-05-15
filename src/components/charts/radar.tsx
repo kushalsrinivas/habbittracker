@@ -6,53 +6,32 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-function RadarChartComponent() {
+interface props {
+  name: string;
+  score: number;
+  fill: string;
+}
+function RadarChartComponent({ name, score, fill }: props) {
   const data = [
-    {
-      name: "Carrer",
-      score: 85,
-      fill: "#8884d8",
-    },
-    {
-      name: "Discipline",
-      score: 58,
-
-      fill: "#83a6ed",
-    },
-    {
-      name: "Mental Health",
-      score: 36,
-
-      fill: "#8dd1e1",
-    },
-    {
-      name: "Interests/Time Off",
-      score: 61,
-
-      fill: "#82ca9d",
-    },
-    {
-      name: "Physical Health",
-      score: 58,
-
-      fill: "#a4de6c",
-    },
+    { name: name, score: score, fill: fill },
+    { score: 100, name: "", fill: "#ffff" },
   ];
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <ResponsiveContainer width="85%" height={250}>
       <RadialBarChart
         width={730}
         height={250}
         innerRadius="100%"
         outerRadius="10%"
         data={data}
-        startAngle={180}
+        startAngle={360}
         endAngle={0}
       >
         <RadialBar
-          label={{ fill: "#666", position: "insideStart" }}
+          label={{ fill: "#666", position: "middle" }}
           background
           dataKey="score"
+          min={100}
         />
         <Legend
           iconSize={10}

@@ -474,8 +474,17 @@ function Index() {
             <div className="text-4xl font-bold">
               {Math.round(Math.abs(12 * getGoodLogs() - getBadLogs() * 20))}
             </div>
+            <div className="flex flex-col">
+              <RadarChartComponent
+                name="Life score"
+                fill="#eb4034"
+                score={Math.round(
+                  Math.abs(12 * getGoodLogs() - getBadLogs() * 20)
+                )}
+              ></RadarChartComponent>
 
-            <BarChartComponent></BarChartComponent>
+              <BarChartComponent></BarChartComponent>
+            </div>
             <p className="text-xs text-muted-foreground">Today</p>
           </CardContent>
         </Card>
