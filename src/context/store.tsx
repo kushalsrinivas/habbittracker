@@ -1,18 +1,23 @@
 interface Activity {
-  weights: number;
   id: number;
   name: string;
   description: string;
-  good: Boolean;
+  domain: String;
   logs: Date[]; // Array of log dates
   lastLogged: Date | null;
   logStrings: String[];
 }
 
+const weights = {
+  Carrer: 30,
+  Discipline: 15,
+  MentalHealth: 30,
+  Interests: 10,
+  PhysicalHealth: 15,
+};
 interface ActivityContextType {
   activities: Activity[];
-  getGoodLogs: () => number;
-  getBadLogs: () => number;
+  weights: Object;
   incrementLog: (activityId: number) => void;
   addActivity: (activity: Activity) => void;
   currentStreak: () => number;
@@ -28,59 +33,52 @@ interface ActivityContextType {
 const initialActivities: Activity[] = [
   {
     id: 1,
-    weights: 2,
-    name: "Smoking",
-    description: "smoking cigarattes",
-    good: false,
+
+    name: "3 hour studying",
+    description: "Studying for 3 hours",
+    domain: "Carrer",
     logs: [],
     logStrings: [],
-
     lastLogged: null,
   },
   {
     id: 2,
-    weights: 2,
-    name: "Alcohol",
+
+    name: "Discipline",
     description: "Consuming alcohol",
-    good: false,
+    domain: "",
     logs: [],
     logStrings: [],
-
     lastLogged: null,
   },
   {
     id: 3,
-    weights: 1,
-    name: "Over Spending",
+
+    name: "",
     description: "Recklessly spending money on useless stuff",
-    good: false,
+    domain: "Mental Health",
     logs: [],
     logStrings: [],
-
     lastLogged: null,
   },
   {
     id: 4,
-    weights: 3,
-    name: "Exercise",
+
+    name: "",
     description: "do some weitgrhss",
-    good: true,
+    domain: "Interests",
     logStrings: [],
-
     logs: [],
-
     lastLogged: null,
   },
   {
     id: 5,
-    weights: 3,
+
     name: "Reading Books",
     description: "short booskod",
-    good: true,
+    domain: "Physical Health",
     logStrings: [],
-
     logs: [],
-
     lastLogged: null,
   },
 ];
@@ -237,22 +235,6 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     return activities.reduce((acc, activity) => acc + activity.logs.length, 0);
   };
 
-  const getGoodLogs = (): number => {
-    return activities.reduce((acc, activity) => {
-      return activity.good
-        ? acc + activity.logs.length * activity.weights
-        : acc;
-    }, 0);
-  };
-  const getBadLogs = (): number => {
-    return activities.reduce(
-      (acc, activity) =>
-        activity.good == false
-          ? acc + activity.logs.length * activity.weights
-          : acc,
-      0
-    );
-  };
   const mostLoggedActivity = (): Activity | null => {
     if (activities.length === 0) return null;
     return activities.reduce((prev, current) =>
@@ -270,8 +252,7 @@ export const ActivityProvider: React.FC<ActivityProviderProps> = ({
     <ActivityContext.Provider
       value={{
         activities,
-        getGoodLogs,
-        getBadLogs,
+        weights,
         incrementLog,
         addActivity,
         currentStreak,

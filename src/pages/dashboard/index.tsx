@@ -36,11 +36,10 @@ import { BsFire } from "react-icons/bs";
 import { Heatmap } from "@/components/charts/heatmap";
 import { count } from "console";
 interface Activity {
-  weights: number;
+  domain: String;
   id: number;
   name: string;
   description: string;
-  good: Boolean;
   logs: Date[]; // Array of log dates
   lastLogged: Date | null;
   logStrings: String[];
@@ -50,11 +49,12 @@ interface ActivityData {
   count: number;
   good: boolean;
 }
+
 function Index() {
   const [name, setName] = useState("");
   const [des, setDes] = useState("");
-  const [isGood, setIsgood] = useState(true);
-  const [priority, setPriority] = useState(1);
+
+  const [domain, setDomain] = useState("Carrer");
 
   function generateRandomData() {
     const data = [];
@@ -89,8 +89,7 @@ function Index() {
 
   const {
     activities,
-    getGoodLogs,
-    getBadLogs,
+    weights,
     incrementLog,
     addActivity,
     mostLoggedActivity,
@@ -102,13 +101,12 @@ function Index() {
     getFirstLogged,
   } = useActivity();
   function generateActivityData(activites: Activity[]) {
-    const data: { date: String; count: number; good: Boolean }[] = [];
+    const data: { date: String; count: number }[] = [];
 
     activites.map((activity, _) => {
       data.push({
         date: activity.logStrings[0], // Format date as "YYYY-MM-DD"
         count: activity.logs.length,
-        good: activity.good,
         // Move to next day
       });
     });
@@ -204,16 +202,63 @@ function Index() {
   }));
   const handlePriority = (e: any) => {
     const id = e.target.id;
-    if (id === "low") {
-      setPriority(1);
-    }
-    if (id === "medium") {
-      setPriority(2);
-    }
-    if (id === "high") {
-      setPriority(3);
-    }
+    setDomain(id);
   };
+  const domains = [
+    <Button
+      key={1}
+      id="Carrer"
+      onClick={handlePriority}
+      className={`w-full ${domain === "Carrer" ? "opacity-1 " : "opacity-50"} `}
+      variant={domain === "Carrer" ? "default" : "outline"}
+    >
+      Carrer
+    </Button>,
+    <Button
+      key={2}
+      id="Discipline"
+      onClick={handlePriority}
+      className={`w-full ${
+        domain === "Discipline" ? "opacity-1 " : "opacity-50"
+      } `}
+      variant={domain === "Discipline" ? "default" : "outline"}
+    >
+      Discipline
+    </Button>,
+    <Button
+      key={3}
+      id="MentalHealth"
+      className={`w-full ${
+        domain === "MentalHealth" ? "opacity-1 " : "opacity-50"
+      } `}
+      onClick={handlePriority}
+      variant={domain === "MentalHealth" ? "default" : "outline"}
+    >
+      Mental Health
+    </Button>,
+    <Button
+      key={4}
+      id="Interests"
+      className={`w-full ${
+        domain === "Interests" ? "opacity-1 " : "opacity-50"
+      } `}
+      onClick={handlePriority}
+      variant={domain === "Interests" ? "default" : "outline"}
+    >
+      Interests
+    </Button>,
+    <Button
+      key={5}
+      id="PhysicalHealth"
+      className={`w-full ${
+        domain === "PhysicalHealth" ? "opacity-1 " : "opacity-50"
+      } `}
+      onClick={handlePriority}
+      variant={domain === "PhysicalHealth" ? "default" : "outline"}
+    >
+      Physical Health
+    </Button>,
+  ];
   return (
     <div className="p-10">
       <div className="flex flex-row items-center  justify-center">
@@ -225,9 +270,9 @@ function Index() {
       <div className="flex flex-col gap-5 justify-center items-center p-10">
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="destructive">Add a new habbit + </Button>
+            <Button variant="destructive">Add a new habbit +</Button>
           </DialogTrigger>
-          <DialogContent className="w-[75%] rounded-lg">
+          <DialogContent className="w-screen rounded-lg">
             <DialogHeader>
               <DialogTitle>Add a Acitivity</DialogTitle>
               <DialogDescription>you know what to do</DialogDescription>
@@ -257,66 +302,27 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
-              <div className="flex flex-col mt-5 items-start gap-4">
-                <Label htmlFor="username" className="text-right">
-                  is this a good habbit or a bad habbit ?
-                </Label>
+
+              <Label
+                htmlFor="username"
+                className="text-right mt-10 items-start"
+              >
+                Category
+              </Label>
+              <div className="flex flex-col mt-2 items-center gap-4">
                 <div className="flex flex-row gap-4 justify-between">
-                  <Button
-                    onClick={() => {
-                      setIsgood(true);
-                    }}
-                    className={`${isGood ? "opacity-1" : "opacity-50"}`}
-                    variant={"ghost"}
-                  >
-                    Good Habbit
-                  </Button>
-                  <Button
-                    className={`${isGood ? "opacity-50" : "opacity-1"}`}
-                    onClick={() => {
-                      setIsgood(false);
-                    }}
-                    variant={"ghost"}
-                  >
-                    Bad Habbit
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-col mt-5 items-start gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Priority
-                </Label>
-                <div className="flex flex-row gap-4 justify-between">
-                  <Button
-                    id="low"
-                    onClick={handlePriority}
-                    className={`${
-                      priority === 1 ? "opacity-1 " : "opacity-50"
-                    } `}
-                    variant={"ghost"}
-                  >
-                    Low
-                  </Button>
-                  <Button
-                    id="medium"
-                    onClick={handlePriority}
-                    className={`${
-                      priority === 2 ? "opacity-1 " : "opacity-50"
-                    } `}
-                    variant={"ghost"}
-                  >
-                    Medium
-                  </Button>
-                  <Button
-                    id="high"
-                    className={`${
-                      priority === 3 ? "opacity-1 " : "opacity-50"
-                    } `}
-                    onClick={handlePriority}
-                    variant={"ghost"}
-                  >
-                    High
-                  </Button>
+                  <div className=" pb-10 grid auto-rows-[36px] grid-cols-3 gap-3">
+                    {domains.map((topic, i) => (
+                      <div
+                        className={`row-span-1 text-xs ${
+                          i === 2 || i === 1 ? "col-span-2" : ""
+                        }${i === 4 ? "col-span-3" : ""}`}
+                        key={i}
+                      >
+                        {topic}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -326,8 +332,7 @@ function Index() {
                 <Button
                   onClick={() => {
                     addActivity({
-                      good: isGood,
-                      weights: 1,
+                      domain: domain,
                       description: des,
                       id: Math.floor(Math.random() * 100),
                       name: name,
@@ -352,7 +357,7 @@ function Index() {
             <div key={activity.id}>
               <Card
                 className={`${
-                  activity.good
+                  true
                     ? "border-green-900 text-green-600"
                     : "border-red-600 text-red-600"
                 }`}
@@ -413,7 +418,7 @@ function Index() {
 
         <Card
           className={`${
-            temp?.good
+            true
               ? "border-green-700 text-green-600"
               : "border-red-600 text-red-600"
           } `}
@@ -422,7 +427,7 @@ function Index() {
             <CardTitle className={`text-sm font-medium`}>Most Logged</CardTitle>
             <BiArrowToTop
               className={`h-4 w-4  text-muted-foreground ${
-                temp?.good
+                true
                   ? "border-green-700 text-green-600"
                   : "border-red-600 text-red-600"
               } `}
@@ -438,7 +443,7 @@ function Index() {
 
         <Card
           className={`${
-            leastLoggedActivity()?.good
+            true
               ? "border-green-700 text-green-600"
               : "border-red-600 text-red-600"
           } `}
@@ -449,7 +454,7 @@ function Index() {
             </CardTitle>
             <BiArrowToBottom
               className={`h-4 w-4  text-muted-foreground ${
-                leastLoggedActivity()?.good
+                true
                   ? "border-green-700 text-green-600"
                   : "border-red-600 text-red-600"
               } `}
@@ -471,16 +476,12 @@ function Index() {
             <GrScorecard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold">
-              {Math.round(Math.abs(12 * getGoodLogs() - getBadLogs() * 20))}
-            </div>
+            <div className="text-4xl font-bold">{Math.round(20)}</div>
             <div className="flex flex-col">
               <RadarChartComponent
                 name="Life score"
                 fill="#eb4034"
-                score={Math.round(
-                  Math.abs(12 * getGoodLogs() - getBadLogs() * 20)
-                )}
+                score={Math.round(Math.abs(20))}
               ></RadarChartComponent>
 
               <BarChartComponent></BarChartComponent>
@@ -490,7 +491,7 @@ function Index() {
         </Card>
       </div>
       <div className="grid gap-4 mt-4 w-full lg:w-1/2 m-auto">
-        {activities.length !== 0 && (
+        {/* {activities.length !== 0 && (
           <>
             <LineChartComponent
               data={activityData.filter((temp, _) => {
@@ -515,7 +516,7 @@ function Index() {
               good={false}
             ></LineChartComponent>{" "}
           </>
-        )}
+        )} */}
 
         <Heatmap data={randomData} params={{ activityId: "3" }}></Heatmap>
       </div>
