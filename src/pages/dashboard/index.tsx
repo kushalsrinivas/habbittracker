@@ -209,7 +209,7 @@ function Index() {
       key={1}
       id="Carrer"
       onClick={handlePriority}
-      className={`w-full ${domain === "Carrer" ? "opacity-1 " : "opacity-50"} `}
+      className={`w-full `}
       variant={domain === "Carrer" ? "default" : "outline"}
     >
       Carrer
@@ -218,9 +218,7 @@ function Index() {
       key={2}
       id="Discipline"
       onClick={handlePriority}
-      className={`w-full ${
-        domain === "Discipline" ? "opacity-1 " : "opacity-50"
-      } `}
+      className={`w-full  `}
       variant={domain === "Discipline" ? "default" : "outline"}
     >
       Discipline
@@ -228,9 +226,7 @@ function Index() {
     <Button
       key={3}
       id="MentalHealth"
-      className={`w-full ${
-        domain === "MentalHealth" ? "opacity-1 " : "opacity-50"
-      } `}
+      className={`w-full  `}
       onClick={handlePriority}
       variant={domain === "MentalHealth" ? "default" : "outline"}
     >
@@ -239,9 +235,7 @@ function Index() {
     <Button
       key={4}
       id="Interests"
-      className={`w-full ${
-        domain === "Interests" ? "opacity-1 " : "opacity-50"
-      } `}
+      className={`w-full `}
       onClick={handlePriority}
       variant={domain === "Interests" ? "default" : "outline"}
     >
@@ -250,9 +244,7 @@ function Index() {
     <Button
       key={5}
       id="PhysicalHealth"
-      className={`w-full ${
-        domain === "PhysicalHealth" ? "opacity-1 " : "opacity-50"
-      } `}
+      className={`w-full  `}
       onClick={handlePriority}
       variant={domain === "PhysicalHealth" ? "default" : "outline"}
     >
@@ -302,26 +294,24 @@ function Index() {
                   className="col-span-3"
                 />
               </div>
-
-              <Label
-                htmlFor="username"
-                className="text-right mt-10 items-start"
-              >
-                Category
-              </Label>
-              <div className="flex flex-col mt-2 items-center gap-4">
-                <div className="flex flex-row gap-4 justify-between">
-                  <div className=" pb-10 grid auto-rows-[36px] grid-cols-3 gap-3">
-                    {domains.map((topic, i) => (
-                      <div
-                        className={`row-span-1 text-xs ${
-                          i === 2 || i === 1 ? "col-span-2" : ""
-                        }${i === 4 ? "col-span-3" : ""}`}
-                        key={i}
-                      >
-                        {topic}
-                      </div>
-                    ))}
+              <div className="mt-5">
+                <Label htmlFor="username" className="text-right  items-start">
+                  Category
+                </Label>
+                <div className="flex flex-col mt-2 items-center gap-4">
+                  <div className="flex flex-row gap-4 justify-between">
+                    <div className=" pb-10 grid auto-rows-[36px] grid-cols-3 gap-3">
+                      {domains.map((topic, i) => (
+                        <div
+                          className={`row-span-1 text-xs ${
+                            i === 2 || i === 1 ? "col-span-2" : ""
+                          }${i === 4 ? "col-span-3" : ""}`}
+                          key={i}
+                        >
+                          {topic}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

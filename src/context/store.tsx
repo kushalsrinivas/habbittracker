@@ -54,8 +54,8 @@ const initialActivities: Activity[] = [
   {
     id: 3,
 
-    name: "",
-    description: "Recklessly spending money on useless stuff",
+    name: "wake up on time",
+    description: "waking up on time ofc",
     domain: "Mental Health",
     logs: [],
     logStrings: [],
@@ -64,8 +64,8 @@ const initialActivities: Activity[] = [
   {
     id: 4,
 
-    name: "",
-    description: "do some weitgrhss",
+    name: "side project",
+    description: "side huistle",
     domain: "Interests",
     logStrings: [],
     logs: [],
